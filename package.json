@@ -17,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/Hteasdell44/employee-database-cms/issues"
   },
-  "homepage": "https://github.com/Hteasdell44/employee-database-cms#readme"
+  "homepage": "https://github.com/Hteasdell44/employee-database-cms#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^16.0.3",
+    "inquirer": "^8.2.4",
+    "mysql2": "^3.2.0",
+    "promise-mysql": "^5.2.0"
+  }
 }
