@@ -26,71 +26,88 @@ init();
 
 // Functions
 
-function init() {
+async function cont() {
+
+    let answer = await inquirer.prompt([{
     
-    inquirer.prompt([{
+        name: 'contMenu',
+        message: 'Would you like to make more changes to the database?',
+        type: 'confirm'
+    }]);
+
+    if (answer.contMenu == true) {
+
+        console.clear();
+        init();
+
+    } else {
+        console.log(`Okay, press Ctrl + C to exit the database.`)
+    }
+};
+
+async function init() {
+
+    let answer = await inquirer.prompt([{
     
         name: 'mainMenu',
         message: 'Welcome! What would you like to do?',
         type: 'list',
         choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add A Department', 'Add A Role', 'Add An Employee', 'Update Employee Role']
-    }])
-
-    .then(function(answer) {
+    }]);
         
-        switch(answer.mainMenu) {
+    switch(answer.mainMenu) {
+        
+        case 'View All Departments':
+
+            db.query(`SELECT * FROM department;`, function (err, result, fields) {
+
+                if (err) throw err;
+                buildDepartmentTable(result);
+                
+            });
             
-            case 'View All Departments':
-    
-                db.query(`SELECT * FROM department;`, function (err, result, fields) {
+            break;
 
-                    if (err) throw err;
-                    buildDepartmentTable(result);
-                });
+        case 'View All Roles':
 
-                break;
+            db.query("SELECT * FROM role;", function (err, result, fields) {
 
-            case 'View All Roles':
-    
-                db.query("SELECT * FROM role;", function (err, result, fields) {
+                if (err) throw err;
+                getNameFromRole(result);
+            });
 
-                    if (err) throw err;
-                    getNameFromRole(result);
-                });
+            break;
+                
+        case 'View All Employees':
+            
+            db.query('SELECT * FROM employee', function (err, result, fields) {
 
-                break;
+                if (err) throw err;
+                buildEmployeeTable(result);
+            });
+
+            break;
                     
-            case 'View All Employees':
-                
-                db.query('SELECT * FROM employee', function (err, result, fields) {
+        case 'Add A Department':
 
-                    if (err) throw err;
-                    buildEmployeeTable(result);
-                });
-
-                break;
-                        
-            case 'Add A Department':
-
-                addDepartment();
-                break;
+            addDepartment();
+            break;
+        
+        case 'Add A Role':
             
-            case 'Add A Role':
-                
-                addRole();
-                break;
+            addRole();
+            break;
+        
+        case 'Add An Employee':
             
-            case 'Add An Employee':
-                
-                addEmployee();
-                break;
-            
-            case 'Update Employee Role':
+            addEmployee();
+            break;
+        
+        case 'Update Employee Role':
 
-                updateEmployee();
-                break;
-        }
-    });
+            updateEmployee();
+            break;
+    }
 };
 // Function To "View All Departments"
 
@@ -105,6 +122,7 @@ function buildDepartmentTable(result) {
 
     const table = cTable.getTable(statement);
     console.log(table);
+    cont();
 };
 
 // Functions To Build & Assemble "View All Roles" 
@@ -129,6 +147,7 @@ function assembleRole(name, result, i) {
 
         const table = cTable.getTable(roleStatement);
         console.log(table);
+        cont();
     }
 };
 
@@ -158,6 +177,7 @@ function assembleEmployee(jobTitle, output, result, i) {
 
         const table = cTable.getTable(employeeStatement);
         console.log(table);
+        cont();
     }
 };
 
@@ -177,9 +197,11 @@ function addDepartment() {
             db.query(`INSERT INTO department (name) VALUES ('${answer.deptName}');`, function (err, res, fields) {
 
                 if (err) throw err;
-                console.log(`Added the ${answer.deptName} Department to the database.`)
+                console.log(`Added the ${answer.deptName} Department to the database.`);
+                cont();
             })
         });
+
 };
 
 function addRole() {
@@ -221,6 +243,7 @@ function addRole() {
 
                     if (err) throw err;
                     console.log(`Added the ${answer.roleName} Role to the database.`)
+                    cont();
                 })
             })
         });
@@ -284,6 +307,7 @@ function addEmployee() {
             
                             if (err) throw err;
                             console.log(`Added ${answer.employeeFirstName} ${answer.employeeLastName} to the database.`);
+                            cont();
                         })
            
                     } else {
@@ -296,18 +320,16 @@ function addEmployee() {
         
                                 if (err) throw err;
                                 console.log(`Added ${answer.employeeFirstName} ${answer.employeeLastName} to the database.`);
+                                cont();
                             })
                         })   
                     }
                 })
-            });
 
-                    
                 
+            });  
         })
-
     })
-    
 };
 
 function updateEmployee() {
@@ -355,6 +377,7 @@ function updateEmployee() {
                     db.query(`UPDATE employee SET role_id = ${res[0].id} WHERE first_name = ${names[0]}, last_name = ${names[1]};`, function (err, upRes, fields) {
 
                         console.log(`Successfully updated employee's role to ${answer.newRole}`);
+                        cont();
                     })
                 })
 
