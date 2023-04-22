@@ -5,6 +5,8 @@
 
 This is an Employee Database Manager for HR Professionals that allow the user to create, read, update and delete all employee data within their database. This CLI application was built with Node.js, Inquirer, and MySQL.
 
+![Screen Shot 2023-04-21 at 11 02 20 PM](https://user-images.githubusercontent.com/48537443/233758501-3f784ec2-8b70-4a35-ae29-89012309d25d.png)
+
 ## Table of Contents
 
 1. [Description](#description)
