@@ -21,7 +21,7 @@ The source code for this project can be found at the GitHub Repository linked [h
 
 ## Usage
 
-This CLI application is not deployed live online.
+This CLI application is not deployed live online. But, click [here](https://drive.google.com/file/d/1XknTkz5Z2eZIzBC2ReLejdwDTzDqgoLx/view) to view a video walkthrough of the functionality.
 
 ## License
 
